@@ -1,0 +1,83 @@
+Q2)Problem Statement: 
+You are given an array of integers. Your task is to find the maximum sum of a subarray that appears at 
+least twice in the array. Specifically, you need to find the maximum sum of two equal subarrays, 
+where each subarray has the same sum and appears at least twice in the array. 
+Input: 
+● A list of integers, where the number of integers is n (1 ≤ n ≤ 10^5). 
+● The array elements are integers, which can be positive or negative. 
+Output: 
+● The maximum sum of two equal subarrays that appear at least twice. If no such subarrays 
+exist, return 0. 
+Example 1: 
+Input: 
+Enter elements of array (terminate with a non-integer input): 1 2 3 3 2 1 
+Output: 
+Maximum sum of two equal subarrays: 6 
+Explanation: 
+● The two subarrays with the same sum are [1, 2, 3] and [3, 2, 1]. Their sum is 6. 
+Example 2: 
+Enter elements of array (terminate with a non-integer input): 1 1 1 1 
+Output: 
+Maximum sum of two equal subarrays: 2 
+Explanation: 
+● The two subarrays with the same sum are [1, 1] and [1, 1]. Their sum is 2. 
+Constraints: 
+● The length of the array n can be as large as 10^5, so the solution should be efficient and 
+should avoid checking all possible subarrays directly. 
+#include <iostream> 
+#include <vector> 
+#include <unordered_map> 
+#include <limits>   // For numeric_limits 
+#include <algorithm> // For std::max 
+using namespace std; 
+ 
+int maxEqualSubarraySum(vector<int>& nums) { 
+    int n = nums.size(); 
+    int maxSum = 0; 
+ 
+    // Create a map to store the sums of subarrays 
+    unordered_map<int, vector<pair<int, int>>> sumMap; // key: sum, value: list of (start, end) pairs 
+ 
+    // Calculate the sum of all subarrays and store them in the map 
+    for (int i = 0; i < n; i++) { 
+        int sum = 0; 
+        for (int j = i; j < n; j++) { 
+            sum += nums[j]; 
+            sumMap[sum].push_back({i, j}); 
+        } 
+    } 
+ 
+    // Compare each pair of subarrays with the same sum 
+    for (auto& entry : sumMap) { 
+        const auto& subarrays = entry.second; 
+        for (size_t i = 0; i < subarrays.size(); i++) { 
+            for (size_t j = i + 1; j < subarrays.size(); j++) { 
+                // Check if subarrays are disjoint (no overlap) 
+                if (subarrays[i].second < subarrays[j].first || subarrays[j].second < subarrays[i].first) { 
+                    maxSum = max(maxSum, entry.first); // Update the max sum 
+                } 
+            } 
+        } 
+    } 
+ 
+    return maxSum; 
+} 
+ 
+int main() { 
+    vector<int> arr; 
+    int num; 
+    cout << "Enter elements of array (terminate with a non-integer input): "; 
+     
+    while (cin >> num) { 
+        arr.push_back(num); 
+    } 
+ 
+    // Clear the error state and ignore the rest of the invalid input 
+    cin.clear(); 
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+    // The line cin.ignore(numeric_limits<streamsize>::max(), '\n'); is used to clear the input buffer 
+after an invalid input (in this case, when a non-integer is entered) to ensure the input stream is in a 
+valid state for further input. 
+    cout << "Maximum sum of two equal subarrays: " << maxEqualSubarraySum(arr) << endl; 
+    return 0; 
+}
