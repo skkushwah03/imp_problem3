@@ -1,65 +1,20 @@
-Q1) Problem Statement: 
-You are given three integers n1, n2, and n3. These integers represent the number of times the 
-characters 'a', 'b', and 'c' will appear in a string respectively. Your task is to generate all possible 
-unique permutations of the string formed by repeating 'a' n1 times, 'b' n2 times, and 'c' n3 times. 
-Input: 
-● Three integers n1, n2, and n3 representing the number of times 'a', 'b', and 'c' appear in 
-the string. (1 ≤ n1, n2, n3 ≤ 10) 
+Problem Statement – 
+A chocolate factory is packing chocolates into the packets. The chocolate packets here represent an 
+array  of N number of integer values. The task is to find the empty packets(0) of chocolate and push it to 
+the end of the conveyor belt(array). 
+Example 1 : 
+N=8 and arr = [4,5,0,1,9,0,5,0]. 
+There are 3 empty packets in the given set. These 3 empty packets represented as O should be pushed 
+towards the end of the array 
+Input : 
+8  – Value of N 
+[4,5,0,1,9,0,5,0] – Element of arr[O] to arr[N-1],While input each element is separated by newline 
 Output: 
-● Print all unique permutations of the string formed by the characters 'a', 'b', and 'c' 
-repeated n1, n2, and n3 times respectively. 
-Example: 
-Input: 
-Enter the number of times 'a' appears: 1 
-Enter the number of times 'b' appears: 1 
-Enter the number of times 'c' appears: 1 
-Output: 
-Unique permutations are: 
-abc 
-acb 
-bac 
-bca 
-cab 
-cba 
-Note: 
-● You are only required to print unique permutations, i.e., no duplicates should appear in the 
-output. 
-Code:- 
-#include <iostream> 
-#include <vector> 
-#include <algorithm> 
-#include <set> 
-using namespace std; 
-void generatePermutations(string& str, int index, set<string>& result) { 
-    if (index == str.length()) { 
-        result.insert(str); // Insert permutation into set to avoid duplicates 
-        return; 
-    } 
-    for (int i = index; i < str.length(); i++) { 
-        swap(str[i], str[index]); 
-        generatePermutations(str, index + 1, result); 
-        swap(str[i], str[index]); // Backtrack to previous state 
-    } 
-} 
+4 5 1 9 5 0 0 0 
  
-int main() { 
-    int n1, n2, n3; 
-    cout << "Enter the number of times 'a' appears: "; 
-    cin >> n1; 
-    cout << "Enter the number of times 'b' appears: "; 
-    cin >> n2; 
-    cout << "Enter the number of times 'c' appears: "; 
-    cin >> n3; 
-    // Construct the string 
-    string str = string(n1, 'a') + string(n2, 'b') + string(n3, 'c'); 
-    // To store unique permutations 
-    set<string> result; 
-    // Generate permutations 
-    generatePermutations(str, 0, result); 
-    // Print all unique permutations 
-    cout << "Unique permutations are: \n"; 
-for (const auto& perm : result) { 
-cout << perm << endl; 
-} 
-return 0; 
-} 
+Example 2: 
+Input: 
+6 — Value of N. 
+[6,0,1,8,0,2] – Element of arr[0] to arr[N-1], While input each element is separated by newline 
+Output: 
+6 1 8 2 0 0
