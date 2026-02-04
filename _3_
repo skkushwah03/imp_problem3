@@ -1,0 +1,65 @@
+Q1) Problem Statement: 
+You are given three integers n1, n2, and n3. These integers represent the number of times the 
+characters 'a', 'b', and 'c' will appear in a string respectively. Your task is to generate all possible 
+unique permutations of the string formed by repeating 'a' n1 times, 'b' n2 times, and 'c' n3 times. 
+Input: 
+● Three integers n1, n2, and n3 representing the number of times 'a', 'b', and 'c' appear in 
+the string. (1 ≤ n1, n2, n3 ≤ 10) 
+Output: 
+● Print all unique permutations of the string formed by the characters 'a', 'b', and 'c' 
+repeated n1, n2, and n3 times respectively. 
+Example: 
+Input: 
+Enter the number of times 'a' appears: 1 
+Enter the number of times 'b' appears: 1 
+Enter the number of times 'c' appears: 1 
+Output: 
+Unique permutations are: 
+abc 
+acb 
+bac 
+bca 
+cab 
+cba 
+Note: 
+● You are only required to print unique permutations, i.e., no duplicates should appear in the 
+output. 
+Code:- 
+#include <iostream> 
+#include <vector> 
+#include <algorithm> 
+#include <set> 
+using namespace std; 
+void generatePermutations(string& str, int index, set<string>& result) { 
+    if (index == str.length()) { 
+        result.insert(str); // Insert permutation into set to avoid duplicates 
+        return; 
+    } 
+    for (int i = index; i < str.length(); i++) { 
+        swap(str[i], str[index]); 
+        generatePermutations(str, index + 1, result); 
+        swap(str[i], str[index]); // Backtrack to previous state 
+    } 
+} 
+ 
+int main() { 
+    int n1, n2, n3; 
+    cout << "Enter the number of times 'a' appears: "; 
+    cin >> n1; 
+    cout << "Enter the number of times 'b' appears: "; 
+    cin >> n2; 
+    cout << "Enter the number of times 'c' appears: "; 
+    cin >> n3; 
+    // Construct the string 
+    string str = string(n1, 'a') + string(n2, 'b') + string(n3, 'c'); 
+    // To store unique permutations 
+    set<string> result; 
+    // Generate permutations 
+    generatePermutations(str, 0, result); 
+    // Print all unique permutations 
+    cout << "Unique permutations are: \n"; 
+for (const auto& perm : result) { 
+cout << perm << endl; 
+} 
+return 0; 
+} 
